@@ -1,0 +1,30 @@
+<html>
+<head>
+  <link href="css/style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<div>
+<div class="display_div">
+<% sites.each do |id, array| %>
+
+<table>
+  <tr>
+    <td class="bold">Original URL</td>
+    <td><%=array[0]%></td>
+  </tr>
+  <tr>
+    <td class="bold">Shortened URL</td>
+    <td><%=array[1]%></td>
+  </tr>
+
+</table>
+
+<%end%>
+
+
+</div>
+</div>
+<a href="/">Shorten another URL</a>
+</body>
+</html>
