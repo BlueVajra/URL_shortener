@@ -1,0 +1,22 @@
+body {
+    text-align: center;
+}
+
+form {
+    position: relative;
+    margin-top: 22%;
+}
+
+.button {
+    display:block;
+    margin: auto;
+    background-color: #374bff;
+    color: white;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.textbox {
+    width: 250px;
+    padding: 5px;
+}
