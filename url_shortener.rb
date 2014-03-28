@@ -3,6 +3,7 @@ require 'sinatra/base'
 class App < Sinatra::Application
 
   SITES = {}
+  CURRENT = []
 
   get '/' do
     erb :index
@@ -12,11 +13,12 @@ class App < Sinatra::Application
     url = params[:shorten_url]
     id = SITES.length + 1
     SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
+    CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
     redirect "/items"
   end
 
   get '/items' do
-    erb :items, locals: {sites: SITES}
+    erb :items, locals: {sites: SITES, current: CURRENT}
   end
 
   get '/:id' do
@@ -28,6 +30,3 @@ class App < Sinatra::Application
 end
 
 
-#SITES = {1, [old_url, new_url]}
-#
-#SITES[id][0] = SITES[id][1]

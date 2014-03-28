@@ -6,21 +6,21 @@
 
 <div>
 <div class="display_div">
-<% sites.each do |id, array| %>
+
 
 <table>
   <tr>
     <td class="bold">Original URL</td>
-    <td><%=array[0]%></td>
+    <td><%=current[0]%></td>
   </tr>
   <tr>
     <td class="bold">Shortened URL</td>
-    <td><%=array[1]%></td>
+    <td><%=current[1]%></td>
   </tr>
 
 </table>
 
-<%end%>
+
 
 
 </div>
@@ -28,3 +28,4 @@
 <a href="/">Shorten another URL</a>
 </body>
 </html>
+
