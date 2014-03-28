@@ -2,10 +2,6 @@ body {
     text-align: center;
 }
 
-form {
-    position: relative;
-    margin-top: 22%;
-}
 
 .button {
     display:block;
@@ -34,4 +30,14 @@ td {
 
 .bold {
     font-weight: bold;
+}
+
+.error {
+
+    color: red;
+}
+
+.main {
+    position: relative;
+    margin-top: 22%;
 }

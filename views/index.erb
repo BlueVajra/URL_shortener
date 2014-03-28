@@ -3,10 +3,15 @@
     <link href="css/style.css" type="text/css" rel="stylesheet">
   </head>
   <body>
-    <form action="/" method="post">
-      <input class="textbox" type="text" name="shorten_url" placeholder="Enter the URL you would like to shorten">
-      <input class="button" type="submit" value="Shorten">
-    </form>
+    <div class="main">
+      <%if !message.nil?%>
+      <p class="error"><%= message %></p>
+        <%end%>
+      <form action="/" method="post">
+        <input class="textbox" type="text" name="shorten_url" placeholder="Enter the URL you would like to shorten">
+        <input class="button" type="submit" value="Shorten">
+      </form>
+    </div>
   </body>
 </html>
 

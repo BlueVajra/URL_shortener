@@ -7,7 +7,8 @@ class App < Sinatra::Application
   CURRENT = []
 
   get '/' do
-    erb :index
+    message = nil
+    erb :index, locals: {message: message}
   end
 
   post '/' do
@@ -23,7 +24,7 @@ class App < Sinatra::Application
     else
       message = "You must enter a valid URL."
     end
-    erb :error, locals: {message: message}
+    erb :index, locals: {message: message}
   end
 
   get '/items' do
