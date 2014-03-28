@@ -1,4 +1,3 @@
-
 source "https://rubygems.org"
 gem 'sinatra_asset_packager'
 gem 'sinatra', '~> 1.4.4'
@@ -12,7 +11,6 @@ end
 group :development do
   gem 'rerun', '~> 0.9.0'
   gem 'git-duet', '~> 0.3.0'
-
 end
 
 
