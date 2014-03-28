@@ -19,8 +19,8 @@ feature "URL shortener" do
     expect(page).to have_content ("http://secret-hollows-7655.herokuapp.com/1")
     expect(page).to have_content ("Shorten another URL")
     visit "http://secret-hollows-7655.herokuapp.com/1"
-    #expect(page).to have_content ("gSchool Tutorials")
-    
+  
+
 
 
   end
