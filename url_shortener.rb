@@ -11,17 +11,19 @@ class App < Sinatra::Application
   end
 
   post '/' do
+    message = ""
     url = params[:shorten_url]
-
     if url =~ /^#{URI::regexp}$/
       id = SITES.length + 1
       SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
       CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
       redirect "/items"
+    elsif url.empty?
+      message = "The URL cannot be blank."
     else
-      erb :error, locals: {message: "You must enter a valid URL."}
+      message = "You must enter a valid URL."
     end
-
+    erb :error, locals: {message: message}
   end
 
   get '/items' do

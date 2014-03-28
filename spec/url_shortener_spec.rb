@@ -19,13 +19,20 @@ feature "URL shortener" do
     expect(page).to have_content ("http://secret-hollows-7655.herokuapp.com")
     expect(page).to have_content ("Shorten another URL")
     visit "http://secret-hollows-7655.herokuapp.com/1"
-
   end
+
   scenario "User sees an error message when entering a string that is not a valid url" do
     visit '/'
     fill_in "shorten_url", with: "I am not a valid url"
     click_on "Shorten"
     expect(page).to have_content ("You must enter a valid URL.")
+  end
+
+  scenario "User sees an error message when entering an empty string" do
+    visit '/'
+    fill_in "shorten_url", with: ""
+    click_on "Shorten"
+    expect(page).to have_content ("The URL cannot be blank.")
   end
 
 end
