@@ -28,6 +28,8 @@ class App < Sinatra::Application
   end
 
   get '/items/:id' do
+    id = params[:id].to_i
+    CURRENT = SITES[id]
     erb :items, locals: {sites: SITES, current: CURRENT}
   end
 
