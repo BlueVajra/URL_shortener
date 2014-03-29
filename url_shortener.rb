@@ -7,14 +7,14 @@ class App < Sinatra::Application
   CURRENT = []
   COUNT = {}
   VANITYID = {}
+  MESSAGE = nil
 
   get '/' do
-    message = nil
-    erb :index, locals: {message: message}
+    erb :index, locals: {message: MESSAGE}
   end
 
   post '/' do
-    message = ""
+    MESSAGE = ""
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
     if url =~ /^#{URI::regexp}$/
@@ -24,17 +24,22 @@ class App < Sinatra::Application
         SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
         CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
       else
-        SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
-        CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
-        VANITYID[vanity_url] = id
+        if VANITYID.has_key?(vanity_url)
+          MESSAGE = "URL already taken: #{vanity_url}"
+          redirect '/'
+        else
+          SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
+          CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
+          VANITYID[vanity_url] = id
+        end
       end
       redirect "/items/#{id}"
     elsif url.empty?
-      message = "The URL cannot be blank."
+      MESSAGE = "The URL cannot be blank."
     else
-      message = "You must enter a valid URL."
+      MESSAGE = "You must enter a valid URL."
     end
-    erb :index, locals: {message: message}
+    erb :index, locals: {message: MESSAGE}
   end
 
   get '/items/:id' do

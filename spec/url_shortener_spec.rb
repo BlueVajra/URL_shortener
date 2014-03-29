@@ -64,7 +64,18 @@ feature "URL shortener" do
     click_on "Shorten"
     expect(page).to have_content "http://secret-hollows-7655.herokuapp.com/rachel"
     click_on "http://secret-hollows-7655.herokuapp.com/rachel"
-
   end
 
+  scenario "If user attempts to use a taken URL an error message is returned" do
+    visit '/'
+    fill_in "shorten_url", with: "https://www.google.com/"
+    fill_in "vanity_url", with: "evan"
+    click_on "Shorten"
+    click_on "Shorten another URL"
+    fill_in "shorten_url", with: "https://www.google.com/"
+    fill_in "vanity_url", with: "evan"
+    click_on "Shorten"
+    expect(page).to have_content "URL already taken"
+    expect(page).to have_content "evan"
+  end
 end
