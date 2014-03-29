@@ -34,6 +34,7 @@ feature "URL shortener" do
     click_on "Shorten"
     expect(page).to have_content ("The URL cannot be blank.")
   end
+
   scenario "User enters a blank or invalid URL, followed by a valid URL, Then returns to the homepage via the link and error message no longer exists"do
     visit '/'
     fill_in "shorten_url", with: "I am not a valid url"
