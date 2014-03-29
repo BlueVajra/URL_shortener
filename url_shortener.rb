@@ -6,6 +6,7 @@ class App < Sinatra::Application
   SITES = {}
   CURRENT = []
   COUNT = {}
+  VANITYID = {}
 
   get '/' do
     message = nil
@@ -18,14 +19,15 @@ class App < Sinatra::Application
     vanity_url = params[:vanity_url]
     if url =~ /^#{URI::regexp}$/
       id = SITES.length + 1
+      COUNT[id] = 0
       if vanity_url.empty?
         SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
         CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
       else
-        SITES[id] = [url, vanity_url]
-        CURRENT = [url, vanity_url]
+        SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
+        CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
+        VANITYID[vanity_url] = id
       end
-      COUNT[id] = 0
       redirect "/items/#{id}"
     elsif url.empty?
       message = "The URL cannot be blank."
@@ -42,9 +44,15 @@ class App < Sinatra::Application
   end
 
   get '/:id' do
-    id = params[:id].to_i
-    COUNT[id] += 1
-    new_url = SITES[id][0]
+    id = params[:id]
+    if id.to_i.to_s == id
+      COUNT[id.to_i] += 1
+      new_url = SITES[id.to_i][0]
+    else
+      id_num = VANITYID[id]
+      new_url = SITES[id_num][0]
+      COUNT[id_num] += 1
+    end
     redirect "#{new_url}"
   end
 
