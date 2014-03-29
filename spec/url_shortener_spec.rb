@@ -64,4 +64,5 @@ feature "URL shortener" do
     click_on "Shorten"
     expect(page).to have_content "http://secret-hollows-7655.herokuapp.com/rachel"
   end
+  
 end

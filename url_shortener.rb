@@ -7,7 +7,6 @@ class App < Sinatra::Application
   CURRENT = []
   COUNT = {}
 
-
   get '/' do
     message = nil
     erb :index, locals: {message: message}
@@ -26,7 +25,6 @@ class App < Sinatra::Application
         SITES[id] = [url, vanity_url]
         CURRENT = [url, vanity_url]
       end
-
       COUNT[id] = 0
       redirect "/items/#{id}"
     elsif url.empty?
@@ -34,8 +32,6 @@ class App < Sinatra::Application
     else
       message = "You must enter a valid URL."
     end
-
-
     erb :index, locals: {message: message}
   end
 
