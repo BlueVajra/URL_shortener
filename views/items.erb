@@ -8,13 +8,18 @@
     <table>
       <tr>
         <td class="bold">Original URL</td>
-        <td><%= current[0] %></td>
+        <td><a href="<%= current[0] %>"><%= current[0] %></a></td>
       </tr>
       <tr>
         <td class="bold">Shortened URL</td>
-        <td><%= current[1] %></td>
+        <td><a href="<%= current[1] %>"><%= current[1] %></a></td>
+      </tr>
+      <tr>
+        <td class="bold">Page visits via shortener:</td>
+        <td><%=count[id].to_s %></td>
       </tr>
     </table>
+
   </div>
 </div>
 <a href="/">Shorten another URL</a>

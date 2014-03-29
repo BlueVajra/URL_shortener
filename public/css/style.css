@@ -20,7 +20,7 @@ body {
 .display_div {
     margin: auto;
     margin-top: 15%;
-    max-width: 500px;
+    width: 600px;
     text-align: left;
 }
 

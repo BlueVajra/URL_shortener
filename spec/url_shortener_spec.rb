@@ -1,6 +1,7 @@
 require_relative "../url_shortener"
 require "capybara/rspec"
 require "spec_helper"
+require "launchy"
 Capybara.app = App
 
 feature "URL shortener" do
@@ -44,6 +45,16 @@ feature "URL shortener" do
     click_on "Shorten"
     click_on "Shorten another URL"
     expect(page).to_not have_content("You must enter a valid URL.")
+  end
+
+  scenario "User can see number of times URL has been visited via URL shortener" do
+    visit '/'
+    fill_in "shorten_url", with: "https://www.google.com/"
+    click_on "Shorten"
+    expect(page).to have_content "0"
+    click_on "http://secret-hollows-7655.herokuapp.com"
+    visit "/items/1"
+    expect(page).to have_content "1"
   end
 
 end
