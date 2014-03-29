@@ -43,6 +43,6 @@ feature "URL shortener" do
     click_on "Shorten"
     click_on "Shorten another URL"
     expect(page).to_not have_content("You must enter a valid URL.")
-
   end
+
 end

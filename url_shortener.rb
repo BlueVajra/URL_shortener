@@ -18,7 +18,7 @@ class App < Sinatra::Application
       id = SITES.length + 1
       SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
       CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
-      redirect "/items"
+      redirect "/items/#{id}"
     elsif url.empty?
       message = "The URL cannot be blank."
     else
@@ -27,7 +27,7 @@ class App < Sinatra::Application
     erb :index, locals: {message: message}
   end
 
-  get '/items' do
+  get '/items/:id' do
     erb :items, locals: {sites: SITES, current: CURRENT}
   end
 
