@@ -57,4 +57,11 @@ feature "URL shortener" do
     expect(page).to have_content "1"
   end
 
+  scenario "User can create a vanity url" do
+    visit '/'
+    fill_in "shorten_url", with: "https://www.google.com/"
+    fill_in "vanity_url", with: "http://secret-hollows-7655.herokuapp.com/rachel"
+    click_on "Shorten"
+    expect(page).to have_content "http://secret-hollows-7655.herokuapp.com/rachel"
+  end
 end

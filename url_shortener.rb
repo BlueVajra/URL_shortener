@@ -16,10 +16,17 @@ class App < Sinatra::Application
   post '/' do
     message = ""
     url = params[:shorten_url]
+    vanity_url = params[:vanity_url]
     if url =~ /^#{URI::regexp}$/
       id = SITES.length + 1
-      SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
-      CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
+      if vanity_url.empty?
+        SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
+        CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
+      else
+        SITES[id] = [url, vanity_url]
+        CURRENT = [url, vanity_url]
+      end
+
       COUNT[id] = 0
       redirect "/items/#{id}"
     elsif url.empty?
@@ -27,6 +34,8 @@ class App < Sinatra::Application
     else
       message = "You must enter a valid URL."
     end
+
+
     erb :index, locals: {message: message}
   end
 

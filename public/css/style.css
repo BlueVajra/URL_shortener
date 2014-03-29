@@ -13,8 +13,11 @@ body {
 }
 
 .textbox {
-    width: 250px;
+    width: 300px;
     padding: 5px;
+    display: block;
+    margin: 10px auto;
+
 }
 
 .display_div {
