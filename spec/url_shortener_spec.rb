@@ -94,4 +94,12 @@ feature "URL shortener" do
     click_on "Shorten"
     expect(page).to have_content "Vanity url cannot be more than 12 characters"
   end
+
+  scenario "if user enters vanity that is not all letters they are returned an error message" do
+    visit '/'
+    fill_in "shorten_url", with: "https://www.google.com/"
+    fill_in "vanity_url", with: "fwh378972"
+    click_on "Shorten"
+    expect(page).to have_content "Vanity must contain only letters"
+  end
 end

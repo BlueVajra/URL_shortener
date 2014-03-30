@@ -29,6 +29,11 @@ class App < Sinatra::Application
       redirect '/'
     end
 
+    if vanity_url.match (/[^A-Za-z]/)
+      MESSAGE = "Vanity must contain only letters"
+      redirect '/'
+    end
+
     if url =~ /^#{URI::regexp}$/
       id = SITES.length + 1
       COUNT[id] = 0
