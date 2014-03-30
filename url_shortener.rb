@@ -1,5 +1,7 @@
 require 'sinatra/base'
 require 'uri'
+require 'obscenity'
+require 'yaml'
 
 class App < Sinatra::Application
 
@@ -17,6 +19,10 @@ class App < Sinatra::Application
     MESSAGE = ""
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
+    if Obscenity.profane? (vanity_url)
+      MESSAGE = "Vanity url cannot have profanity"
+      redirect '/'
+    end
     if url =~ /^#{URI::regexp}$/
       id = SITES.length + 1
       COUNT[id] = 0
