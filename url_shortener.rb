@@ -23,6 +23,12 @@ class App < Sinatra::Application
       MESSAGE = "Vanity url cannot have profanity"
       redirect '/'
     end
+
+    if vanity_url.length > 12
+      MESSAGE = "Vanity url cannot be more than 12 characters"
+      redirect '/'
+    end
+
     if url =~ /^#{URI::regexp}$/
       id = SITES.length + 1
       COUNT[id] = 0

@@ -86,4 +86,12 @@ feature "URL shortener" do
     click_on "Shorten"
     expect(page).to have_content "Vanity url cannot have profanity"
   end
+
+  scenario "user enters a vanity url that is more than 12 chars is returned an error message" do
+    visit '/'
+    fill_in "shorten_url", with: "https://www.google.com/"
+    fill_in "vanity_url", with: "thisisreallylong"
+    click_on "Shorten"
+    expect(page).to have_content "Vanity url cannot be more than 12 characters"
+  end
 end
