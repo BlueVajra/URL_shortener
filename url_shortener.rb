@@ -54,7 +54,7 @@ class App < Sinatra::Application
     elsif url.empty?
       MESSAGE = "The URL cannot be blank."
     else
-      MESSAGE = "You must enter a valid URL."
+      MESSAGE = "#{url} is not a valid URL."
     end
     erb :index, locals: {message: MESSAGE}
   end

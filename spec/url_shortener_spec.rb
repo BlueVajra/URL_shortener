@@ -24,9 +24,9 @@ feature "URL shortener" do
 
   scenario "User sees an error message when entering a string that is not a valid url" do
     visit '/'
-    fill_in "shorten_url", with: "I am not a valid url"
+    fill_in "shorten_url", with: "here's some code"
     click_on "Shorten"
-    expect(page).to have_content ("You must enter a valid URL.")
+    expect(page).to have_content ("not a valid URL.")
   end
 
   scenario "User sees an error message when entering an empty string" do
@@ -38,9 +38,9 @@ feature "URL shortener" do
 
   scenario "User enters a blank or invalid URL, followed by a valid URL, Then returns to the homepage via the link and error message no longer exists"do
     visit '/'
-    fill_in "shorten_url", with: "I am not a valid url"
+    fill_in "shorten_url", with: "haaands"
     click_on "Shorten"
-    expect(page).to have_content ("You must enter a valid URL.")
+    expect(page).to have_content ("not a valid URL.")
     fill_in "shorten_url", with: "https://www.google.com/"
     click_on "Shorten"
     click_on "Shorten another URL"
