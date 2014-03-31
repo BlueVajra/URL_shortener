@@ -50,7 +50,7 @@ class App < Sinatra::Application
           VANITYID[vanity_url] = id
         end
       end
-      redirect "/items/#{id}"
+      redirect "#{id}?stats=true"
     elsif url.empty?
       MESSAGE = "The URL cannot be blank."
     else
@@ -59,7 +59,7 @@ class App < Sinatra::Application
     erb :index, locals: {message: MESSAGE}
   end
 
-  get '/items/:id' do
+  get '/:id?' do
     id = params[:id].to_i
     CURRENT = SITES[id]
     erb :items, locals: {sites: SITES, current: CURRENT, count: COUNT, id: id}
