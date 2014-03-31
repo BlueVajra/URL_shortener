@@ -4,6 +4,7 @@ body {
 
 
 .button {
+    font-size: 1em;
     display:block;
     margin: auto;
     background-color: #374bff;
@@ -13,7 +14,8 @@ body {
 }
 
 .textbox {
-    width: 300px;
+    font-size: 0.8em;
+    width: 400px;
     padding: 5px;
     display: block;
     margin: 10px auto;
