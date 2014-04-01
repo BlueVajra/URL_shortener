@@ -5,9 +5,7 @@ require 'yaml'
 
 class App < Sinatra::Application
 
-  SITES = {}
-  CURRENT = []
-  COUNT = {}
+  DB = {}
   VANITYID = {}
   MESSAGE = nil
 
@@ -35,18 +33,19 @@ class App < Sinatra::Application
     end
 
     if url =~ /^#{URI::regexp}$/
-      id = SITES.length + 1
-      COUNT[id] = 0
+      id = DB.length + 1
+      DB[id] = {}
+      DB[id][:count] = 0
       if vanity_url.empty?
-        SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
-        CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{id}"]
+        DB[id][:url] = url
+        DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{id}"
       else
         if VANITYID.has_key?(vanity_url)
           MESSAGE = "URL already taken: #{vanity_url}"
           redirect '/'
         else
-          SITES[id] = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
-          CURRENT = [url, "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"]
+          DB[id][:url] = url
+          DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"
           VANITYID[vanity_url] = id
         end
       end
@@ -59,23 +58,22 @@ class App < Sinatra::Application
     erb :index, locals: {message: MESSAGE}
   end
 
-  get '/:id?' do
-    id = params[:id].to_i
-    CURRENT = SITES[id]
-    erb :items, locals: {sites: SITES, current: CURRENT, count: COUNT, id: id}
-  end
-
   get '/:id' do
-    id = params[:id]
-    if id.to_i.to_s == id
-      COUNT[id.to_i] += 1
-      new_url = SITES[id.to_i][0]
+    if params[:stats]
+      id = params[:id].to_i
+      erb :items, locals: {sites: DB[id]}
     else
-      id_num = VANITYID[id]
-      new_url = SITES[id_num][0]
-      COUNT[id_num] += 1
+      id = params[:id]
+      if id.to_i.to_s == id
+        DB[id.to_i][:count] += 1
+        new_url = DB[id.to_i][:url]
+      else
+        id_num = VANITYID[id]
+        new_url = DB[id_num][:url]
+        DB[id_num][:count] += 1
+      end
+      redirect "#{new_url}"
     end
-    redirect "#{new_url}"
   end
 
 end

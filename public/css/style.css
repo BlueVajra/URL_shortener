@@ -3,7 +3,6 @@ body {
     font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-
 .button {
     font-size: 1em;
     display:block;
@@ -20,7 +19,6 @@ body {
     padding: 5px;
     display: block;
     margin: 10px auto;
-
 }
 
 .display_div {
@@ -39,7 +37,6 @@ td {
 }
 
 .error {
-
     color: red;
 }
 

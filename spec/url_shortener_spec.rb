@@ -6,6 +6,12 @@ Capybara.app = App
 
 feature "URL shortener" do
 
+  before :each do
+    App::DB.clear
+    App::VANITYID.clear
+    App::MESSAGE = nil
+  end
+
   scenario "The user can see the input form and button on homepage" do
     visit '/'
     expect(page).to have_selector("form")
@@ -24,7 +30,7 @@ feature "URL shortener" do
 
   scenario "User sees an error message when entering a string that is not a valid url" do
     visit '/'
-    fill_in "shorten_url", with: "here's some code"
+    fill_in "shorten_url", with: "here's some code "
     click_on "Shorten"
     expect(page).to have_content ("not a valid URL.")
   end
