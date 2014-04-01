@@ -1,20 +1,21 @@
 <html>
-  <head>
-    <link href="/css/style.css" type="text/css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="main">
-      <%if !message.nil?%>
-      <p class="error"><%= message %></p>
-        <%end%>
-      <form action="/" method="post">
-        <input class="textbox" type="text" name="shorten_url" placeholder="Enter the URL you would like to shorten">
-        <div class="vanity">Optional: Enter a vanity URL: </div>
-        <input class="textbox" type="text" name="vanity_url" placeholder="What would you like the shortened URL to be?">
-        <input class="button" type="submit" value="Shorten">
-      </form>
-    </div>
-  </body>
+<head>
+  <link href="/css/style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="main">
+  <% if !message.nil? %>
+    <p class="error"><%= message %></p>
+  <% end %>
+  <form action="/" method="post">
+    <input class="textbox" type="text" name="shorten_url" placeholder="Enter the URL you would like to shorten" value="<%= field %>">
+
+    <div class="vanity">Optional: Enter a vanity URL:</div>
+    <input class="textbox" type="text" name="vanity_url" placeholder="What would you like the shortened URL to be?">
+    <input class="button" type="submit" value="Shorten">
+  </form>
+</div>
+</body>
 </html>
 
 

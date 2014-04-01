@@ -9,6 +9,7 @@ class App < Sinatra::Application
   VANITYID = {}
   MESSAGE = nil
   MESSAGE_COUNT = 0
+  FIELD =""
 
   get '/' do
     if MESSAGE_COUNT > 0
@@ -18,27 +19,32 @@ class App < Sinatra::Application
       MESSAGE_COUNT += 1
     end
 
-    erb :index, locals: {message: MESSAGE}
+    erb :index, locals: {message: MESSAGE, field: FIELD}
 
   end
 
   post '/' do
     MESSAGE = nil
     MESSAGE_COUNT = 0
+    FIELD = ""
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
+
     if Obscenity.profane? (vanity_url)
       MESSAGE = "Vanity url cannot have profanity"
+      FIELD = url
       redirect '/'
     end
 
     if vanity_url.length > 12
       MESSAGE = "Vanity url cannot be more than 12 characters"
+      FIELD = url
       redirect '/'
     end
 
     if vanity_url.match (/[^A-Za-z]/)
       MESSAGE = "Vanity must contain only letters"
+      FIELD = url
       redirect '/'
     end
 
@@ -52,6 +58,7 @@ class App < Sinatra::Application
       else
         if VANITYID.has_key?(vanity_url)
           MESSAGE = "URL already taken: #{vanity_url}"
+          FIELD = url
           redirect '/'
         else
           DB[id][:url] = url

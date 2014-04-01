@@ -118,4 +118,16 @@ feature "URL shortener" do
     expect(page).to_not have_content "is not a valid URL."
   end
 
+  scenario "User will see top form repopulated with url if vanity is already taken" do
+    visit '/'
+    fill_in "shorten_url", with: "https://www.google.com/"
+    fill_in "vanity_url", with: "cory"
+    click_on "Shorten"
+    visit '/'
+    fill_in "shorten_url", with: "https://www.facebook.com/"
+    fill_in "vanity_url", with: "cory"
+    click_on "Shorten"
+    expect(find_field('shorten_url').value).to have_content "https://www.facebook.com/"
+  end
+
 end
