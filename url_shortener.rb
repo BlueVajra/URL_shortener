@@ -8,13 +8,23 @@ class App < Sinatra::Application
   DB = {}
   VANITYID = {}
   MESSAGE = nil
+  MESSAGE_COUNT = 0
 
   get '/' do
+    if MESSAGE_COUNT > 0
+      MESSAGE = nil
+      MESSAGE_COUNT = 0
+    else
+      MESSAGE_COUNT += 1
+    end
+
     erb :index, locals: {message: MESSAGE}
+
   end
 
   post '/' do
-    MESSAGE = ""
+    MESSAGE = nil
+    MESSAGE_COUNT = 0
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
     if Obscenity.profane? (vanity_url)
@@ -55,7 +65,8 @@ class App < Sinatra::Application
     else
       MESSAGE = "#{url} is not a valid URL."
     end
-    erb :index, locals: {message: MESSAGE}
+    #erb :index, locals: {message: MESSAGE}
+    redirect '/'
   end
 
   get '/:id' do

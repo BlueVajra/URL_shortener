@@ -108,4 +108,14 @@ feature "URL shortener" do
     click_on "Shorten"
     expect(page).to have_content "Vanity must contain only letters"
   end
+
+  scenario "user will not see same error after refreshing the page" do
+    visit '/'
+    fill_in "shorten_url", with: "fdsaewgwe"
+    click_on "Shorten"
+    expect(page).to have_content "fdsaewgwe is not a valid URL."
+    visit '/'
+    expect(page).to_not have_content "is not a valid URL."
+  end
+
 end
