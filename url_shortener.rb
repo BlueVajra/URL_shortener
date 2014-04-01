@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require 'uri'
-require 'obscenity'
 require 'yaml'
+require_relative 'lib/bad_words'
 
 class App < Sinatra::Application
 
@@ -15,6 +15,7 @@ class App < Sinatra::Application
     if MESSAGE_COUNT > 0
       MESSAGE = nil
       MESSAGE_COUNT = 0
+      FIELD = ""
     else
       MESSAGE_COUNT += 1
     end
@@ -30,7 +31,7 @@ class App < Sinatra::Application
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
 
-    if Obscenity.profane? (vanity_url)
+    if Badwords.new.has_profanity? (vanity_url)
       MESSAGE = "Vanity url cannot have profanity"
       FIELD = url
       redirect '/'
@@ -72,7 +73,6 @@ class App < Sinatra::Application
     else
       MESSAGE = "#{url} is not a valid URL."
     end
-    #erb :index, locals: {message: MESSAGE}
     redirect '/'
   end
 

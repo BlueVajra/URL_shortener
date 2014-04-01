@@ -88,7 +88,7 @@ feature "URL shortener" do
   scenario "user enters profanity in the vanity url and is returned and error message" do
     visit '/'
     fill_in "shorten_url", with: "https://www.google.com/"
-    fill_in "vanity_url", with: "fuck"
+    fill_in "vanity_url", with: "fuckeveryone"
     click_on "Shorten"
     expect(page).to have_content "Vanity url cannot have profanity"
   end
