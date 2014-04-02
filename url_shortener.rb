@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require 'uri'
 require 'yaml'
-require_relative 'lib/bad_words'
+require_relative 'lib/url_validator'
 
 class App < Sinatra::Application
 
@@ -31,49 +31,40 @@ class App < Sinatra::Application
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
 
-    if Badwords.new.has_profanity? (vanity_url)
-      MESSAGE = "Vanity url cannot have profanity"
-      FIELD = url
+    current_url = URLvalidator.new(url, vanity_url)
+    if !current_url.is_valid?
+      MESSAGE = current_url.error_message
       redirect '/'
-    end
+    else
 
-    if vanity_url.length > 12
-      MESSAGE = "Vanity url cannot be more than 12 characters"
-      FIELD = url
-      redirect '/'
-    end
-
-    if vanity_url.match (/[^A-Za-z]/)
-      MESSAGE = "Vanity must contain only letters"
-      FIELD = url
-      redirect '/'
-    end
-
-    if url =~ /^#{URI::regexp}$/
-      id = DB.length + 1
-      DB[id] = {}
-      DB[id][:count] = 0
       if vanity_url.empty?
+        id = DB.length + 1
+        DB[id] = {}
+        DB[id][:count] = 0
+
         DB[id][:url] = url
         DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{id}"
+        redirect "#{id}?stats=true"
       else
         if VANITYID.has_key?(vanity_url)
           MESSAGE = "URL already taken: #{vanity_url}"
           FIELD = url
           redirect '/'
         else
+          id = DB.length + 1
+          DB[id] = {}
+          DB[id][:count] = 0
+
           DB[id][:url] = url
           DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"
           VANITYID[vanity_url] = id
+          redirect "#{id}?stats=true"
         end
       end
-      redirect "#{id}?stats=true"
-    elsif url.empty?
-      MESSAGE = "The URL cannot be blank."
-    else
-      MESSAGE = "#{url} is not a valid URL."
+
+
     end
-    redirect '/'
+
   end
 
   get '/:id' do
