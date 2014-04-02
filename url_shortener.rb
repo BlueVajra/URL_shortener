@@ -30,41 +30,29 @@ class App < Sinatra::Application
     FIELD = ""
     url = params[:shorten_url]
     vanity_url = params[:vanity_url]
-
     current_url = URLvalidator.new(url, vanity_url)
     if !current_url.is_valid?
       MESSAGE = current_url.error_message
       redirect '/'
     else
-
-      if vanity_url.empty?
+      if vanity_url.empty? || !VANITYID.has_key?(vanity_url)
         id = DB.length + 1
         DB[id] = {}
         DB[id][:count] = 0
-
         DB[id][:url] = url
-        DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{id}"
-        redirect "#{id}?stats=true"
-      else
-        if VANITYID.has_key?(vanity_url)
-          MESSAGE = "URL already taken: #{vanity_url}"
-          FIELD = url
-          redirect '/'
+        if vanity_url.empty?
+          DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{id}"
         else
-          id = DB.length + 1
-          DB[id] = {}
-          DB[id][:count] = 0
-
-          DB[id][:url] = url
           DB[id][:shortened_url] = "http://secret-hollows-7655.herokuapp.com/#{vanity_url}"
           VANITYID[vanity_url] = id
-          redirect "#{id}?stats=true"
         end
+        redirect "#{id}?stats=true"
+      else
+        MESSAGE = "URL already taken: #{vanity_url}"
+        FIELD = url
+        redirect '/'
       end
-
-
     end
-
   end
 
   get '/:id' do
