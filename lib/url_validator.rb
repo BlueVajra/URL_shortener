@@ -43,9 +43,9 @@ class URLvalidator
 
   def is_format_valid?
     if @url =~ /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix
-      return true
+      true
     else
-      return false
+      false
     end
   end
 

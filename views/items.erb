@@ -8,15 +8,15 @@
     <table>
       <tr>
         <td class="bold">Original URL</td>
-        <td><%= sites[:url] %></td>
+        <td><%= site[:url] %></td>
       </tr>
       <tr>
         <td class="bold">Shortened URL</td>
-        <td><a href="<%= sites[:shortened_url] %>"><%= sites[:shortened_url] %></a></td>
+        <td><a href="<%= site[:redirect] %>"><%= site[:redirect] %></a></td>
       </tr>
       <tr>
         <td class="bold">Page visits via shortener:</td>
-        <td><%= sites[:count].to_s %></td>
+        <td><%= site[:count].to_s %></td>
       </tr>
     </table>
   </div>

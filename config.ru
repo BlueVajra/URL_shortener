@@ -1,4 +1,3 @@
-require "./url_shortener.rb"
-
+require "./app.rb"
 
 run App
