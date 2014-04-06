@@ -8,7 +8,15 @@ Capybara.app_host = "http://www.example.com"
 feature "URL shortener" do
 
   before :each do
-    App::DB = URLRepository.new
+    @db = Sequel.connect('postgres://gschool_user:password@localhost:5432/url_shortener')
+    @db.create_table! :urls do
+      primary_key :id
+      String :url
+      String :short_url
+      Integer :count
+    end
+    @items = @db[:urls]
+    App::DB = URLRepository.new(@items)
     App::MESSAGE = nil
     App::MESSAGE_COUNT = 0
   end
@@ -37,7 +45,7 @@ feature "URL shortener" do
     expect(page).to have_content ("The URL cannot be blank.")
   end
 
-  scenario "User enters a blank or invalid URL, followed by a valid URL, Then returns to the homepage via the link and error message no longer exists"do
+  scenario "User enters a blank or invalid URL, followed by a valid URL, Then returns to the homepage via the link and error message no longer exists" do
     visit '/'
     fill_in "shorten_url", with: "haaands"
     click_on "Shorten"

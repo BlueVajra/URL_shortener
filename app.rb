@@ -1,11 +1,18 @@
 require 'sinatra/base'
-require 'yaml'
 require_relative 'lib/url_validator'
 require_relative 'lib/url_repository'
 
 class App < Sinatra::Application
 
-  DB = URLRepository.new
+  SQLDB = Sequel.connect('postgres://gschool_user:password@localhost:5432/url_shortener')
+  SQLDB.create_table! :urls do
+    primary_key :id
+    String :url
+    String :short_url
+    Integer :count
+  end
+  ITEMS = SQLDB[:urls]
+  DB = URLRepository.new(ITEMS)
   MESSAGE = nil
   MESSAGE_COUNT = 0
   FIELD = ""
@@ -30,6 +37,7 @@ class App < Sinatra::Application
     current_url = URLvalidator.new(url, vanity_url)
     if !current_url.is_valid?
       MESSAGE = current_url.error_message
+      FIELD = url
       redirect '/'
     elsif !vanity_url.empty? && DB.vanity_taken?(vanity_url)
       MESSAGE = "URL already taken: #{vanity_url}"

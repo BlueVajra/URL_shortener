@@ -44,8 +44,6 @@ describe "Url validator" do
     actual = validator.error_message
     expected = "Vanity url cannot have profanity"
     expect(actual).to eq expected
-
-    expect(validator.is_valid?).to eq false
   end
 
   it "returns true if regular url is valid" do
@@ -61,6 +59,5 @@ describe "Url validator" do
     expected = true
     expect(actual).to eq expected
   end
-
 
 end
