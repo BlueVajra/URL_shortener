@@ -2,7 +2,7 @@ require 'sequel'
 
 class URLRepository
   def initialize(db)
-    @urls = db
+    @urls = db[:urls]
     @id_count = 1
   end
 
@@ -24,7 +24,7 @@ class URLRepository
   end
 
   def vanity_taken?(id)
-   !@urls[:short_url => id].nil?
+    !@urls[:short_url => id].nil?
   end
 
   def get_stats(id, base_url)

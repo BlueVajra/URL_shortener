@@ -1,11 +1,11 @@
-URL_shortener
-=============
+# URL Shortener
 
-This is our staging:
-http://secret-hollows-7655.herokuapp.com
+## Development
+1. `bundle install`
+1. Create a database by running `psql -d postgres -f scripts/create_database.sql`
+1. Run the migrations in the development database using `sequel -m migrations postgres://gschool_user:password@localhost/url_shortener_development`
+1. Run the migrations in the test database using `sequel -m migrations postgres://gschool_user:password@localhost/url_shortener_test`
+1. `rerun rackup`
+    * running rerun will reload app when file changes are detected
+1. Run tests using `rspec spec`.
 
-This is our production:
-http://urlproduction.herokuapp.com/
-
-This is our tracker project url:
-https://www.pivotaltracker.com/n/projects/1047452

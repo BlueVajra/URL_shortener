@@ -1,13 +1,15 @@
 ENV['RACK_ENV'] = 'test'
+require 'sequel'
+
+SQLDB = Sequel.connect('postgres://gschool_user:password@localhost/url_shortener_test')
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
-
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
   config.order = 'random'
+end
+
+def id_of_created_url(current_path)
+  current_path.gsub('/', '')
 end

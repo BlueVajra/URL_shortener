@@ -1,18 +1,11 @@
 require 'sinatra/base'
 require_relative 'lib/url_validator'
 require_relative 'lib/url_repository'
+#require 'dotenv'
+#Dotenv.load
 
 class App < Sinatra::Application
 
-  SQLDB = Sequel.connect('postgres://gschool_user:password@localhost:5432/url_shortener')
-  SQLDB.create_table! :urls do
-    primary_key :id
-    String :url
-    String :short_url
-    Integer :count
-  end
-  ITEMS = SQLDB[:urls]
-  DB = URLRepository.new(ITEMS)
   MESSAGE = nil
   MESSAGE_COUNT = 0
   FIELD = ""
@@ -65,7 +58,7 @@ class App < Sinatra::Application
 
   helpers do
     def base_url
-       @base_url ||= request.base_url
+      @base_url ||= request.base_url
     end
   end
 

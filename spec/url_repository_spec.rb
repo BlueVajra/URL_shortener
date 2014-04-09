@@ -1,21 +1,19 @@
 require 'url_repository'
+require "spec_helper"
 
 describe URLRepository do
   before do
-    #@db = URLRepository.new("http://www.example.com")
-    @db = Sequel.connect('postgres://gschool_user:password@localhost:5432/url_shortener')
-    @db.create_table! :urls do
+    SQLDB.create_table :urls do
       primary_key :id
       String :url
       String :short_url
       Integer :count
     end
-    @items = @db[:urls]
-    @url_repository = URLRepository.new(@items)
+    @url_repository = URLRepository.new(SQLDB)
   end
 
   after do
-    @db.drop_table :urls
+    SQLDB.drop_table :urls
   end
 
   it "stores urls and gets urls by id" do

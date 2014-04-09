@@ -8,17 +8,19 @@ Capybara.app_host = "http://www.example.com"
 feature "URL shortener" do
 
   before :each do
-    @db = Sequel.connect('postgres://gschool_user:password@localhost:5432/url_shortener')
-    @db.create_table! :urls do
+    SQLDB.create_table :urls do
       primary_key :id
       String :url
       String :short_url
       Integer :count
     end
-    @items = @db[:urls]
-    App::DB = URLRepository.new(@items)
+    App::DB = URLRepository.new(SQLDB)
     App::MESSAGE = nil
     App::MESSAGE_COUNT = 0
+  end
+
+  after do
+    SQLDB.drop_table :urls
   end
 
   scenario "User can enter url to be shortened and sees both original and shortened urls both of which go to the same site." do
