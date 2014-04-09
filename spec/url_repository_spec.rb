@@ -3,17 +3,8 @@ require "spec_helper"
 
 describe URLRepository do
   before do
-    SQLDB.create_table :urls do
-      primary_key :id
-      String :url
-      String :short_url
-      Integer :count
-    end
+    Migrator.new(SQLDB).run
     @url_repository = URLRepository.new(SQLDB)
-  end
-
-  after do
-    SQLDB.drop_table :urls
   end
 
   it "stores urls and gets urls by id" do

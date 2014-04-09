@@ -8,20 +8,16 @@ Capybara.app_host = "http://www.example.com"
 feature "URL shortener" do
 
   before :each do
-    SQLDB.create_table :urls do
-      primary_key :id
-      String :url
-      String :short_url
-      Integer :count
-    end
+
+    Migrator.new(SQLDB).run
     App::DB = URLRepository.new(SQLDB)
     App::MESSAGE = nil
     App::MESSAGE_COUNT = 0
   end
 
-  after do
-    SQLDB.drop_table :urls
-  end
+  #after do
+  #  SQLDB.drop_table :urls
+  #end
 
   scenario "User can enter url to be shortened and sees both original and shortened urls both of which go to the same site." do
     visit '/'
